@@ -4,13 +4,13 @@ import os
 
 app = Flask(__name__)
 
-# កំណត់ Database (បើនៅលើ Render វារត់តាម Cloud DB, បើលើ PC វារត់ SQLite ធម្មតា)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql://database_test_qkul_user:QYOpjtF6mJP5ql8562UwFPCRtgKuXo5l@dpg-da8gf8oae00c73csaur0-a/database_test_qkul')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-# បង្កើត Model សម្រាប់เก็บទិន្នន័យ Trade
+
 class Trade(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.String(50), nullable=False)
@@ -18,11 +18,10 @@ class Trade(db.Model):
     price = db.Column(db.Float, nullable=False)
     notes = db.Column(db.Text, nullable=True)
 
-# បង្កើត Database Tables ពេលបើកកូដដំបូង
+
 with app.app_context():
     db.create_all()
-
-# --- HTML Templates (ដាក់បញ្ចូលក្នុង File តែមួយ) ---
+    
 INDEX_HTML = """
 <!DOCTYPE html>
 <html lang="en">
@@ -116,7 +115,7 @@ ADMIN_HTML = """
 </html>
 """
 
-# --- Flask Routes ---
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
